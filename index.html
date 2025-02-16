@@ -11,14 +11,17 @@
     <link rel="stylesheet" href="index.css" />
     <script src="index.js"></script>
     <script defer>
-      document.addEventListener('DOMContentLoaded', () => {
-        const chatContainer = document.querySelector('.chat-container');
-        const inputBox = document.querySelector('.input-box');
-        const sendButton = document.querySelector('.send-button');
+      document.addEventListener("DOMContentLoaded", () => {
+        const chatContainer = document.querySelector(".chat-container");
+        const inputBox = document.querySelector(".input-box");
+        const sendButton = document.querySelector(".send-button");
 
-        function appendMessage(text, isBot = false) {     // wait till the bot is generating the output
-          const messageDiv = document.createElement('div');
-          messageDiv.className = `message ${isBot ? 'bot-message' : 'user-message'}`;
+        function appendMessage(text, isBot = false) {
+          // wait till the bot is generating the output
+          const messageDiv = document.createElement("div");
+          messageDiv.className = `message ${
+            isBot ? "bot-message" : "user-message"
+          }`;
           messageDiv.textContent = text;
           chatContainer.appendChild(messageDiv);
           chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -30,28 +33,31 @@
 
           // Add user message to chat
           appendMessage(message, false);
-          inputBox.value = '';
+          inputBox.value = "";
 
           try {
-            const response = await fetch('http://localhost:3000/content', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ question: message })
-            });
+            const response = await fetch(
+              "https://geminify.onrender.com/content",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ question: message }),
+              }
+            );
 
             const data = await response.json();
-            appendMessage(data, true);  // this is the message we get from bot
+            appendMessage(data, true); // this is the message we get from bot
           } catch (error) {
-            console.error('Error:', error);
-            appendMessage('Sorry, something went wrong!', true);
+            console.error("Error:", error);
+            appendMessage("Sorry, something went wrong!", true);
           }
         }
 
-        sendButton.addEventListener('click', sendMessage);
-        inputBox.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
+        sendButton.addEventListener("click", sendMessage);
+        inputBox.addEventListener("keypress", (e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             sendMessage();
           }
@@ -62,7 +68,8 @@
   <body>
     <div class="chat-container">
       <div class="message bot-message">
-        NAMASTE! 🙏 I am chatbot made by my master <span class="master" >ISHWAR</span>, How can I assist you today? 🤔
+        NAMASTE! 🙏 I am chatbot made by my master
+        <span class="master">ISHWAR</span>, How can I assist you today? 🤔
       </div>
     </div>
     <div class="input-container">
